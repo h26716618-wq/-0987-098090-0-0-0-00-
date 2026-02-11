@@ -1,0 +1,742 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ù„ÙˆØ­Ø© Ø§Ù„ØªØ­ÙƒÙ… - Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'Cairo',sans-serif;
+  background:#f0f2f5;
+  padding:20px;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+}
+
+/* ===== Ù‡ÙŠØ¯Ø± ===== */
+.header{
+  background:#0b2a4a;
+  color:#fff;
+  padding:25px;
+  border-radius:10px;
+  margin-bottom:30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+.header h1{
+  font-size:1.8rem;
+}
+
+.logout-btn{
+  background:#e74c3c;
+  color:#fff;
+  border:none;
+  padding:10px 20px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:600;
+  transition:background 0.3s;
+}
+
+.logout-btn:hover{
+  background:#c0392b;
+}
+
+/* ===== Ø§Ù„Ø¨Ø­Ø« ÙˆØ§Ù„ØªØµÙÙŠØ© ===== */
+.search-section{
+  background:#fff;
+  padding:25px;
+  border-radius:10px;
+  margin-bottom:30px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.search-input{
+  flex:1;
+  min-width:200px;
+  padding:12px;
+  border:2px solid #ddd;
+  border-radius:6px;
+  font-family:'Cairo',sans-serif;
+  font-size:1rem;
+  transition:border-color 0.3s;
+}
+
+.search-input:focus{
+  outline:none;
+  border-color:#0b2a4a;
+  background:#fffacd;
+}
+
+.search-btn, .add-btn{
+  padding:12px 30px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:600;
+  transition:all 0.3s;
+  font-family:'Cairo',sans-serif;
+  font-size:1rem;
+}
+
+.search-btn{
+  background:#3498db;
+  color:#fff;
+}
+
+.search-btn:hover{
+  background:#2980b9;
+}
+
+.add-btn{
+  background:#27ae60;
+  color:#fff;
+}
+
+.add-btn:hover{
+  background:#229954;
+}
+
+/* ===== Ø¬Ø¯ÙˆÙ„ Ø§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª ===== */
+.certificates-table{
+  background:#fff;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom:30px;
+}
+
+.table-responsive{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+thead{
+  background:#0b2a4a;
+  color:#fff;
+}
+
+th{
+  padding:15px;
+  text-align:right;
+  font-weight:700;
+  border-bottom:2px solid #eee;
+}
+
+td{
+  padding:15px;
+  border-bottom:1px solid #eee;
+}
+
+tbody tr:hover{
+  background:#f9f9f9;
+}
+
+.action-btns{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.edit-btn, .delete-btn{
+  padding:8px 15px;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+  font-weight:600;
+  font-size:0.9rem;
+  transition:all 0.3s;
+  font-family:'Cairo',sans-serif;
+  text-decoration:none;
+  display:inline-block;
+}
+
+.edit-btn{
+  background:#3498db;
+  color:#fff;
+}
+
+.edit-btn:hover{
+  background:#2980b9;
+}
+
+.delete-btn{
+  background:#e74c3c;
+  color:#fff;
+}
+
+.delete-btn:hover{
+  background:#c0392b;
+}
+
+/* ===== Ø§Ù„Ø±Ø³Ø§Ù„Ø§Øª ===== */
+.empty-state{
+  text-align:center;
+  padding:60px 20px;
+  color:#999;
+}
+
+.empty-state p{
+  font-size:1.2rem;
+  margin-bottom:20px;
+}
+
+.message{
+  padding:15px;
+  border-radius:6px;
+  margin-bottom:20px;
+  display:none;
+}
+
+.success{
+  background:#d4edda;
+  color:#155724;
+  border:1px solid #c3e6cb;
+}
+
+.error{
+  background:#f8d7da;
+  color:#721c24;
+  border:1px solid #f5c6cb;
+}
+
+/* ===== Modal ===== */
+.modal{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:rgba(0,0,0,0.5);
+  z-index:1000;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal.active{
+  display:flex;
+}
+
+.modal-content{
+  background:#fff;
+  padding:30px;
+  border-radius:10px;
+  max-width:500px;
+  width:90%;
+  box-shadow:0 10px 40px rgba(0,0,0,0.3);
+}
+
+.modal-header{
+  font-size:1.5rem;
+  font-weight:700;
+  margin-bottom:20px;
+  color:#0b2a4a;
+}
+
+.form-group{
+  margin-bottom:20px;
+  text-align:right;
+}
+
+.form-group label{
+  display:block;
+  font-weight:600;
+  color:#0b2a4a;
+  margin-bottom:8px;
+}
+
+.form-group input{
+  width:100%;
+  padding:12px;
+  border:2px solid #ddd;
+  border-radius:6px;
+  font-family:'Cairo',sans-serif;
+  font-size:1rem;
+  transition:border-color 0.3s;
+}
+
+.form-group input:focus{
+  outline:none;
+  border-color:#0b2a4a;
+  background:#fffacd;
+}
+
+.modal-actions{
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+  margin-top:30px;
+}
+
+.modal-btn{
+  padding:12px 25px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:600;
+  font-family:'Cairo',sans-serif;
+  font-size:1rem;
+  transition:all 0.3s;
+}
+
+.save-btn{
+  background:#27ae60;
+  color:#fff;
+}
+
+.save-btn:hover{
+  background:#229954;
+}
+
+.cancel-btn{
+  background:#95a5a6;
+  color:#fff;
+}
+
+.cancel-btn:hover{
+  background:#7f8c8d;
+}
+
+.close-modal{
+  float:left;
+  font-size:1.5rem;
+  cursor:pointer;
+  color:#999;
+}
+
+.close-modal:hover{
+  color:#333;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <!-- ===== Ù‡ÙŠØ¯Ø± ===== -->
+  <div class="header">
+    <h1>Ù„ÙˆØ­Ø© Ø§Ù„ØªØ­ÙƒÙ…</h1>
+    <button class="logout-btn" onclick="logout()">ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø®Ø±ÙˆØ¬</button>
+  </div>
+
+  <!-- ===== Ø§Ù„Ø±Ø³Ø§Ø¦Ù„ ===== -->
+  <div class="message success" id="successMsg"></div>
+  <div class="message error" id="errorMsg"></div>
+
+  <!-- ===== Ø§Ù„Ø¨Ø­Ø« ÙˆØ§Ù„Ø¥Ø¶Ø§ÙØ© ===== -->
+  <div class="search-section">
+    <input 
+      type="text" 
+      class="search-input" 
+      id="searchInput" 
+      placeholder="Ø§Ø¨Ø­Ø« Ø¨Ø±Ù‚Ù… Ø§Ù„Ù‚ÙŠØ¯ Ø£Ùˆ Ø§Ù„Ø§Ø³Ù… Ø£Ùˆ Ø§Ù„ÙØ¦Ø©..."
+    >
+    <button class="search-btn" onclick="searchCertificates()">Ø¨Ø­Ø«</button>
+    <button class="add-btn" onclick="openAddModal()">+ Ø¥Ø¶Ø§ÙØ© Ø´Ù‡Ø§Ø¯Ø© Ø¬Ø¯ÙŠØ¯Ø©</button>
+  </div>
+
+  <!-- ===== Ø¬Ø¯ÙˆÙ„ Ø§Ù„Ø´Ù‡Ø§Ø¯Ø§Øª ===== -->
+  <div class="certificates-table">
+    <div class="table-responsive">
+      <table id="certificatesTable">
+        <thead>
+          <tr>
+            <th>Ø±Ù‚Ù… Ø§Ù„Ù‚ÙŠØ¯</th>
+            <th>Ø§Ø³Ù… Ø§Ù„Ø·Ø§Ù„Ø¨</th>
+            <th>Ø§Ù„ÙØ¦Ø©</th>
+            <th>Ø§Ù„Ù…Ø±ÙƒØ²</th>
+            <th>Ø§Ù„Ù…Ø¹Ø¯Ù„</th>
+            <th>Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡Ø§Øª</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+      </table>
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <p>Ù„Ø§ ØªÙˆØ¬Ø¯ Ø´Ù‡Ø§Ø¯Ø§Øª Ù…Ø­ÙÙˆØ¸Ø©</p>
+      <button class="add-btn" onclick="openAddModal()">Ø¥Ø¶Ø§ÙØ© Ø´Ù‡Ø§Ø¯Ø© Ø¬Ø¯ÙŠØ¯Ø©</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Modal Ø¥Ø¶Ø§ÙØ© Ø´Ù‡Ø§Ø¯Ø© ===== -->
+<div class="modal" id="addModal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeAddModal()">&times;</span>
+    <div class="modal-header">Ø¥Ø¶Ø§ÙØ© Ø´Ù‡Ø§Ø¯Ø© Ø¬Ø¯ÙŠØ¯Ø©</div>
+    <form onsubmit="handleAddCertificate(event)">
+      <div class="form-group">
+        <label for="registrationNumber">Ø±Ù‚Ù… Ø§Ù„Ù‚ÙŠØ¯:</label>
+        <input type="text" id="registrationNumber" required>
+      </div>
+      <div class="form-group">
+        <label for="studentName">Ø§Ø³Ù… Ø§Ù„Ø·Ø§Ù„Ø¨:</label>
+        <input type="text" id="studentName" required>
+      </div>
+      <div class="form-group">
+        <label for="studentCategory">Ø§Ù„ÙØ¦Ø©:</label>
+        <input type="text" id="studentCategory" placeholder="Ù…Ø«Ø§Ù„: Ø§Ù„ØµØºØ±Ù‰" required>
+      </div>
+      <div class="form-group">
+        <label for="studentCenter">Ø§Ù„Ù…Ø±ÙƒØ²:</label>
+        <input type="text" id="studentCenter" placeholder="Ù…Ø«Ø§Ù„: Ø§Ù„Ø£ÙˆÙ„" required>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="modal-btn cancel-btn" onclick="closeAddModal()">Ø¥Ù„ØºØ§Ø¡</button>
+        <button type="submit" class="modal-btn save-btn">Ø¥Ø¶Ø§ÙØ© ÙˆØªØ­Ø±ÙŠØ±</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+// Authentication check
+window.addEventListener('load', () => {
+  if (localStorage.getItem('teacherLoggedIn') !== 'true') {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  cleanupLocalStorage();
+  loadCertificates();
+});
+
+function showSuccess(msg) {
+  const el = document.getElementById('successMsg');
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 3000);
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 3000);
+}
+
+function cleanupLocalStorage() {
+  try {
+    const raw = localStorage.getItem('certificates');
+    if (!raw) {
+      try { localStorage.removeItem('certificates_with_images'); } catch (e) {}
+      return;
+    }
+
+    let certs = JSON.parse(raw);
+    if (!Array.isArray(certs)) certs = [];
+
+    certs = certs.map((c) => {
+      const copy = { ...c };
+      delete copy.image;
+      return copy;
+    });
+
+    const size = new Blob([JSON.stringify(certs)]).size;
+    if (size > 1024 * 1024) {
+      certs = certs.slice(-50);
+    }
+
+    localStorage.setItem('certificates', JSON.stringify(certs));
+    try { localStorage.removeItem('certificates_with_images'); } catch (e) {}
+  } catch (error) {
+    console.error('cleanup error:', error);
+  }
+}
+
+function getDefaultGrades() {
+  return [
+    { subject: 'القرآن', first: 50, second: 50 },
+    { subject: 'الإسلامية', first: 50, second: 50 },
+    { subject: 'العربي', first: 50, second: 50 },
+    { subject: 'الرياضيات', first: 50, second: 50 },
+    { subject: 'العلوم', first: 50, second: 50 },
+    { subject: 'الإنجليزي', first: 50, second: 50 },
+    { subject: 'النورانيه', first: 50, second: 50 }
+  ];
+}
+
+function calculateAverage(grades) {
+  if (!Array.isArray(grades) || grades.length === 0) return null;
+  const total = grades.reduce((sum, g) => sum + (Number(g.first) || 0) + (Number(g.second) || 0), 0);
+  return Math.round((total / (grades.length * 100)) * 100);
+}
+
+function normalizeCertificate(cert) {
+  const safe = { ...(cert || {}) };
+  safe.id = safe.id || (Date.now().toString() + '_' + Math.random().toString(36).slice(2, 8));
+  safe.registrationNumber = (safe.registrationNumber || '').toString();
+  safe.studentName = safe.studentName || '';
+  safe.studentCategory = safe.studentCategory || '';
+  safe.studentCenter = safe.studentCenter || '';
+  safe.sigName = safe.sigName || 'أ. شروق أحمد ياسين';
+  safe.attendance = Number(safe.attendance || 0);
+  safe.absence = Number(safe.absence || 0);
+  safe.grades = Array.isArray(safe.grades) && safe.grades.length > 0 ? safe.grades : getDefaultGrades();
+  safe.average = Number.isFinite(Number(safe.average)) ? Number(safe.average) : calculateAverage(safe.grades);
+  return safe;
+}
+
+function upsertLocalCertificate(cert) {
+  let certs = [];
+  try {
+    certs = JSON.parse(localStorage.getItem('certificates') || '[]');
+    if (!Array.isArray(certs)) certs = [];
+  } catch (e) {
+    certs = [];
+  }
+
+  const idx = certs.findIndex((c) => c.id === cert.id);
+  if (idx >= 0) certs[idx] = cert;
+  else certs.push(cert);
+
+  localStorage.setItem('certificates', JSON.stringify(certs));
+}
+
+async function fetchCertificatesFromServer() {
+  const response = await fetch('/api/certificates/list');
+  if (!response.ok) throw new Error('list request failed');
+  return response.json();
+}
+
+async function loadCertificates() {
+  try {
+    let certs = [];
+    try {
+      certs = await fetchCertificatesFromServer();
+    } catch (serverError) {
+      const localRaw = localStorage.getItem('certificates');
+      certs = localRaw ? JSON.parse(localRaw) : [];
+    }
+
+    if (!Array.isArray(certs)) certs = [];
+    certs = certs.map(normalizeCertificate);
+
+    localStorage.setItem('certificates', JSON.stringify(certs));
+    displayCertificates(certs);
+  } catch (error) {
+    console.error('loadCertificates error:', error);
+    displayCertificates([]);
+  }
+}
+
+function displayCertificates(certs) {
+  const tableBody = document.getElementById('tableBody');
+  const emptyState = document.getElementById('emptyState');
+
+  if (!Array.isArray(certs) || certs.length === 0) {
+    tableBody.innerHTML = '';
+    emptyState.style.display = 'block';
+    return;
+  }
+
+  emptyState.style.display = 'none';
+  tableBody.innerHTML = certs.map((rawCert) => {
+    const cert = normalizeCertificate(rawCert);
+    const avgText = cert.average === null ? '-' : `${cert.average}%`;
+
+    return `
+      <tr>
+        <td>${cert.registrationNumber || '-'}</td>
+        <td>${cert.studentName || '-'}</td>
+        <td>${cert.studentCategory || '-'}</td>
+        <td>${cert.studentCenter || '-'}</td>
+        <td>${avgText}</td>
+        <td>
+          <div class="action-btns">
+            <a href="editor.html?certId=${encodeURIComponent(cert.id)}" class="edit-btn">تحرير</a>
+            <button class="delete-btn" data-cert-id="${cert.id}" onclick="deleteCertificateById(this)">حذف</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+async function searchCertificates() {
+  const query = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+
+  if (!query) {
+    await loadCertificates();
+    return;
+  }
+
+  try {
+    let certs = [];
+    try {
+      certs = await fetchCertificatesFromServer();
+    } catch (e) {
+      certs = JSON.parse(localStorage.getItem('certificates') || '[]');
+    }
+
+    if (!Array.isArray(certs)) certs = [];
+
+    const filtered = certs.filter((c) => {
+      const reg = (c.registrationNumber || '').toString().toLowerCase();
+      const name = (c.studentName || '').toLowerCase();
+      const category = (c.studentCategory || '').toLowerCase();
+      const center = (c.studentCenter || '').toLowerCase();
+      return reg.includes(query) || name.includes(query) || category.includes(query) || center.includes(query);
+    });
+
+    displayCertificates(filtered);
+  } catch (error) {
+    console.error('search error:', error);
+    showError('❌ حدث خطأ أثناء البحث');
+  }
+}
+
+function openAddModal() {
+  document.getElementById('addModal').classList.add('active');
+}
+
+function closeAddModal() {
+  document.getElementById('addModal').classList.remove('active');
+  document.getElementById('registrationNumber').value = '';
+  document.getElementById('studentName').value = '';
+  document.getElementById('studentCategory').value = '';
+  document.getElementById('studentCenter').value = '';
+}
+
+async function saveCertificateToServer(cert) {
+  const response = await fetch('/api/certificates/save', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      registrationNumber: cert.registrationNumber,
+      studentName: cert.studentName,
+      studentCategory: cert.studentCategory,
+      certification: cert,
+      id: cert.id
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(await response.text());
+  }
+
+  return response.json();
+}
+
+async function handleAddCertificate(e) {
+  e.preventDefault();
+
+  const regNum = document.getElementById('registrationNumber').value.trim();
+  const name = document.getElementById('studentName').value.trim();
+  const category = document.getElementById('studentCategory').value.trim();
+  const center = document.getElementById('studentCenter').value.trim();
+
+  if (!regNum || !name || !category || !center) {
+    showError('يرجى ملء جميع الحقول');
+    return;
+  }
+
+  const newCert = normalizeCertificate({
+    id: Date.now().toString() + '_' + Math.random().toString(36).slice(2, 8),
+    registrationNumber: regNum,
+    studentName: name,
+    studentCategory: category,
+    studentCenter: center,
+    sigName: 'أ. شروق أحمد ياسين',
+    attendance: 0,
+    absence: 0,
+    grades: getDefaultGrades(),
+    lang: 'ar',
+    savedAt: new Date().toISOString()
+  });
+
+  upsertLocalCertificate(newCert);
+
+  let serverSaved = false;
+  try {
+    await saveCertificateToServer(newCert);
+    serverSaved = true;
+    await loadCertificates();
+  } catch (error) {
+    console.warn('server save failed:', error);
+  }
+
+  showSuccess(serverSaved
+    ? 'تمت إضافة الشهادة بنجاح! جاري فتح المحرر...'
+    : 'تمت إضافة الشهادة محلياً (السيرفر غير متاح حالياً)');
+
+  closeAddModal();
+
+  setTimeout(() => {
+    localStorage.setItem('currentCertId', newCert.id);
+    localStorage.setItem('currentCertData', JSON.stringify(newCert));
+    window.location.href = 'editor.html?certId=' + encodeURIComponent(newCert.id);
+  }, 700);
+}
+
+async function deleteCertificate(certId) {
+  if (!confirm('هل أنت متأكد من حذف هذه الشهادة؟')) return;
+
+  try {
+    let certs = JSON.parse(localStorage.getItem('certificates') || '[]');
+    if (!Array.isArray(certs)) certs = [];
+    certs = certs.filter((c) => c.id !== certId);
+    localStorage.setItem('certificates', JSON.stringify(certs));
+
+    const currentCertId = localStorage.getItem('currentCertId');
+    if (currentCertId === certId) {
+      localStorage.removeItem('currentCertId');
+      localStorage.removeItem('currentCertData');
+    }
+
+    try {
+      await fetch(`/api/certificates/${encodeURIComponent(certId)}`, { method: 'DELETE' });
+    } catch (serverErr) {
+      console.warn('server delete failed:', serverErr);
+    }
+
+    await loadCertificates();
+    showSuccess('✅ تم حذف الشهادة بنجاح');
+  } catch (error) {
+    console.error('delete error:', error);
+    showError('❌ حدث خطأ أثناء حذف الشهادة');
+  }
+}
+
+function deleteCertificateById(buttonElement) {
+  const certId = buttonElement.getAttribute('data-cert-id');
+  deleteCertificate(certId);
+}
+
+function logout() {
+  if (!confirm('هل تريد تسجيل الخروج؟')) return;
+  localStorage.removeItem('teacherLoggedIn');
+  localStorage.removeItem('loginTime');
+  window.location.href = 'login.html';
+}
+
+window.addEventListener('click', (e) => {
+  const modal = document.getElementById('addModal');
+  if (e.target === modal) closeAddModal();
+});
+
+</script>
+
+</body>
+</html>
+
